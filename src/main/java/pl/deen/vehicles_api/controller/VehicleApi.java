@@ -1,5 +1,7 @@
 package pl.deen.vehicles_api.controller;
 
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static org.springframework.hateoas.server.mvc.ControllerLinkBuilder.linkTo;
 
 @RestController
 @RequestMapping(value = "/vehicles", produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
@@ -29,9 +33,11 @@ public class VehicleApi {
     }
 
     @GetMapping("/id/{id}")
-    public ResponseEntity getVehicleById(@PathVariable("id") long id) {
-        Optional<Vehicle> first = vehicleList.stream().filter(vehicle -> vehicle.getId() == id).findFirst();
-        return first.map(vehicle -> new ResponseEntity(vehicle, HttpStatus.OK)).orElseGet(() -> new ResponseEntity(HttpStatus.NOT_FOUND));
+    public ResponseEntity<EntityModel<Vehicle>> getVehicleById(@PathVariable("id") long id) {
+        Link link = linkTo(VehicleApi.class).slash(id).withSelfRel();
+        Optional<Vehicle> vehicleById = vehicleList.stream().filter(vehicle -> vehicle.getId() == id).findFirst();
+        EntityModel<Vehicle> vehicleResource = new EntityModel<>(vehicleById.get(), link);
+        return vehicleById.map(vehicle -> new ResponseEntity(vehicleResource, HttpStatus.OK)).orElseGet(() -> new ResponseEntity(HttpStatus.NOT_FOUND));
     }
 
     @GetMapping("/color/{color}")
