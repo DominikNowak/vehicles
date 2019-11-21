@@ -42,8 +42,16 @@ public class VehicleService {
     public boolean modVehicle(Vehicle newVehicle){
         Optional<Vehicle> optionalVehicle = vehicleList.stream().filter(vehicle -> vehicle.getId() == newVehicle.getId()).findFirst();
         if (optionalVehicle.isPresent()){
-            vehicleList.remove(optionalVehicle.get());
-            return vehicleList.add(newVehicle);
+            if (!optionalVehicle.get().getMark().equals(newVehicle.getMark())) {
+                optionalVehicle.get().setMark(newVehicle.getMark());
+            }
+            if (!optionalVehicle.get().getModel().equals(newVehicle.getModel())) {
+                optionalVehicle.get().setModel(newVehicle.getModel());
+            }
+            if (!optionalVehicle.get().getColor().equals(newVehicle.getColor())) {
+                optionalVehicle.get().setColor(newVehicle.getColor());
+            }
+            return true;
         }
         return false;
     }
