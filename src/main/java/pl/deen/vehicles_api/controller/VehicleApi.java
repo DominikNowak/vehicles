@@ -26,7 +26,7 @@ public class VehicleApi {
         return vehicleService.getVehicleList();
     }
 
-    @GetMapping("/id/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Vehicle> getVehicleById(@PathVariable("id") long id) {
         return vehicleService.getVehicleById(id).map(vehicle -> new ResponseEntity(vehicle, HttpStatus.OK)).orElseGet(() -> new ResponseEntity(HttpStatus.NOT_FOUND));
     }
