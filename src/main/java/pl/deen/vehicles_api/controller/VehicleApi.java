@@ -59,7 +59,7 @@ public class VehicleApi {
 
     @PatchMapping("/{id}")
     public ResponseEntity patchVehicleColor(@RequestBody String updatedColor, @PathVariable("id") long id) {
-        if (vehicleService.patchVehicleColor(updatedColor,id)) {
+        if (vehicleService.patchVehicleColor(updatedColor, id)) {
             return new ResponseEntity(HttpStatus.OK);
         }
         return new ResponseEntity(HttpStatus.NOT_FOUND);

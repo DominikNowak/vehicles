@@ -13,5 +13,12 @@ public class Vehicle {
     private String mark;
     private String model;
     private String color;
+    private int year;
 
+    public Vehicle(String mark, String model, String color, int year) {
+        this.mark = mark;
+        this.model = model;
+        this.color = color;
+        this.year = year;
+    }
 }
